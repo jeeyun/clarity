@@ -1,5 +1,16 @@
 language: node_js
 node_js:
-  - "6"
-  - "6.1"
   - "5.11"
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+  sauce_connect: true
+
+cache:
+  directories:
+     - ./node_modules

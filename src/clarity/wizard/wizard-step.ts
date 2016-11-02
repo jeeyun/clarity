@@ -46,6 +46,6 @@ export class WizardStep extends TabLink {
 
     ngOnInit(): void {
         // The nav text will be the title of the main section.
-        this.title = this.elementRef.nativeElement.innerText.trim();
+        this.title = this.elementRef.nativeElement.textContent.trim();
     }
 }
