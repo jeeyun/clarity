@@ -2,6 +2,8 @@
 
 # Clarity Design System
 
+[![Build Status](https://travis-ci.org/vmware/clarity.svg?branch=master)](https://travis-ci.org/vmware/clarity)
+
 The Clarity Design System brings user experience, implementation, tools, and guidelines together.  This repository includes everything you need to build, customize, test, and deploy Clarity.  For complete documentation, visit the [Clarity website](https://vmware.github.io/clarity/).
 
 ## Getting Started
