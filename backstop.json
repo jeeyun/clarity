@@ -27,7 +27,7 @@
       "readyEvent": "backstop.ready",
       "delay": 500,
       "misMatchThreshold" : 0.01,
-      "onReadyScript": "onReadyHomePage.js"
+      "onReadyScript": "onReadyHomepage.js"
     },
     {
       "label": "Buttons",
