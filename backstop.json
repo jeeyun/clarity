@@ -25,7 +25,7 @@
         "clr-main-container"
       ],
       "readyEvent": "backstop.ready",
-      "delay": 500,
+      "delay": 1000,
       "misMatchThreshold" : 0.01,
       "onReadyScript": "onReadyHomepage.js"
     },
@@ -41,7 +41,7 @@
         ".btn-danger"
       ],
       "readyEvent": "backstop.ready",
-      "delay": 500,
+      "delay": 1000,
       "misMatchThreshold" : 0.1,
       "onBeforeScript": "onBefore.js",
       "onReadyScript": "onReadyBtn.js"
@@ -57,5 +57,5 @@
   "casperFlags": [],
   "engine": "phantomjs",
   "report": ["browser"],
-  "debug": true
+  "debug": false
 }
