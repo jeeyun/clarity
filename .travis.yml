@@ -9,7 +9,9 @@ addons:
     packages:
       - g++-4.8
 
+install:
+  - npm test
+  - gulp css:test
+
 cache:
-  directories:
-    - ./node_modules
-    - $HOME/.yarn-cache
+  yarn: true
