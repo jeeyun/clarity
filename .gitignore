@@ -3,6 +3,9 @@ tmp/
 node_modules/
 typings/
 .idea/
+backstop_data/bitmaps_test/
+backstop_data/ci_report/
+backstop_data/html_report/
 .DS_Store
 .npmrc.clarity
 npm-debug.log

@@ -23,6 +23,7 @@
     "zone.js": "0.6.25"
   },
   "devDependencies": {
+    "backstopjs": "^2.3.3",
     "bootstrap": "4.0.0-alpha.5",
     "browser-sync": "^2.11.2",
     "clang-format": "^1.0.37",
