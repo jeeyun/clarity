@@ -29,6 +29,7 @@ gulp.task('css:reference', ["build"], function() {
         })
         .catch(function(err){
             browserSync.get("css-server").exit();
+            process.exit(1);
         });
 });
 
@@ -41,6 +42,7 @@ gulp.task('css:test', ["build"], function() {
         })
         .catch(function(err){
             browserSync.get("css-server").exit();
+            process.exit(1);
         });
 });
 
