@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "6.0"
-
+os:
+  - osx
 addons:
   apt:
     sources:
@@ -9,7 +10,6 @@ addons:
     packages:
       - g++-4.8
   artifacts:
-    debug: true
     paths:
       - $TRAVIS_BUILD_DIR/backstop_data/
 cache:
