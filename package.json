@@ -67,7 +67,7 @@
     "start": "gulp serve",
     "build": "gulp build --prod && gulp karma",
     "build:dev": "gulp build",
-    "test": "gulp css:test",
+    "test": "gulp css:reference && gulp css:test",
     "test:watch": "gulp test:watch",
     "prepublish:all": "gulp npm:prepare --version $npm_package_version",
     "typings": "typings",
