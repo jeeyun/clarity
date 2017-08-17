@@ -7,6 +7,7 @@ import {Component} from "@angular/core";
 
 import {TestContext} from "../helpers.spec";
 import {FiltersProvider} from "../providers/filters";
+import {HideableColumnService} from "../providers/hideable-column.service";
 import {Sort} from "../providers/sort";
 
 import {DomAdapter} from "./dom-adapter";
@@ -22,8 +23,9 @@ export default function(): void {
         let organizer: MockDatagridRenderOrganizer;
 
         beforeEach(function() {
-            context = this.create(DatagridHeaderRenderer, SimpleTest,
-                                  [MOCK_ORGANIZER_PROVIDER, MOCK_DOM_ADAPTER_PROVIDER, Sort, FiltersProvider]);
+            context = this.create(
+                DatagridHeaderRenderer, SimpleTest,
+                [MOCK_ORGANIZER_PROVIDER, MOCK_DOM_ADAPTER_PROVIDER, Sort, FiltersProvider, HideableColumnService]);
             domAdapter = context.getClarityProvider(DomAdapter);
             organizer = context.getClarityProvider(DatagridRenderOrganizer);
         });

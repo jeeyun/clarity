@@ -15,6 +15,7 @@ import {SortOrder} from "./interfaces/sort-order";
 import {CustomFilter} from "./providers/custom-filter";
 import {DragDispatcher} from "./providers/drag-dispatcher";
 import {FiltersProvider} from "./providers/filters";
+import {HideableColumnService} from "./providers/hideable-column.service";
 import {Sort} from "./providers/sort";
 import {DatagridFilterRegistrar} from "./utils/datagrid-filter-registrar";
 
@@ -43,7 +44,7 @@ let nbCount: number = 0;
                <ng-container *ngTemplateOutlet="columnTitle"></ng-container>
             </span>
 
-            <div class="datagrid-column-separator">
+            <div class="datagrid-column-separator" *ngIf="showColumnSeparator">
                 <button #columnHandle class="datagrid-column-handle" tabindex="-1" type="button"></button>
                 <div #columnHandleTracker class="datagrid-column-handle-tracker"></div>
             </div>
@@ -53,7 +54,8 @@ let nbCount: number = 0;
 })
 
 export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilterImpl> {
-    constructor(private _sort: Sort, filters: FiltersProvider, private _dragDispatcher: DragDispatcher) {
+    constructor(private _sort: Sort, filters: FiltersProvider, private _dragDispatcher: DragDispatcher,
+                public hideableColumnService: HideableColumnService) {
         super(filters);
         this._sortSubscription = _sort.change.subscribe(sort => {
             // We're only listening to make sure we emit an event when the column goes from sorted to unsorted
@@ -114,6 +116,10 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
      * Subscription to the sort service changes
      */
     private _sortSubscription: Subscription;
+
+    public get isOnlyVisibleColumn(): boolean {
+        return this.hideableColumnService.getVisibleColumns().length === 1;
+    }
 
     ngOnDestroy() {
         this._sortSubscription.unsubscribe();
@@ -334,4 +340,6 @@ export class DatagridColumn extends DatagridFilterRegistrar<DatagridStringFilter
      * @type {DatagridHideableColumn}
      */
     public hideable: DatagridHideableColumn;
+
+    public showColumnSeparator: boolean = true;
 }

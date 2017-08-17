@@ -5,16 +5,31 @@
  */
 import {Component, QueryList, TemplateRef, ViewChildren} from "@angular/core";
 
+import {DatagridColumn} from "./datagrid-column";
 import {DatagridColumnToggle} from "./datagrid-column-toggle";
 import {DatagridHideableColumn} from "./datagrid-hideable-column";
 import {TestContext} from "./helpers.spec";
+import {FiltersProvider} from "./providers/filters";
 import {HideableColumnService} from "./providers/hideable-column.service";
+import {Sort} from "./providers/sort";
 
 export default function(): void {
     describe("Datagrid Column Toggle component", function() {
         describe("Typescript API", function() {
             let hideableColumnService: HideableColumnService;
             let component: DatagridColumnToggle;
+
+            function createTestColumnList(hideableColumns: DatagridHideableColumn[]) {
+                const testColumns: DatagridColumn[] = [];
+                hideableColumns.forEach((hideableColumn) => {
+                    const column =
+                        new DatagridColumn(new Sort(), new FiltersProvider(), null, new HideableColumnService());
+                    column.hideable = hideableColumn;
+                    testColumns.push(column);
+                });
+
+                return testColumns;
+            }
 
             function getTestColumns(): DatagridHideableColumn[] {
                 // Mixed columns: 1/2 hidden (true) & 1/2 showing (false)
@@ -48,26 +63,26 @@ export default function(): void {
 
                 // add columns to the service
                 const testColumns = getTestColumns();
-                hideableColumnService.updateColumnList(testColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(testColumns));
                 component.ngOnInit();
-                expect(component.columns).toEqual(hideableColumnService.getColumns());
+                expect(component.columns).toEqual(hideableColumnService.getHideableColumns());
             });
 
             it("updates the hideable column list when the list changes", function() {
                 const testColumns = getTestColumns();
-                hideableColumnService.updateColumnList(testColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(testColumns));
                 component.ngOnInit();
                 expect(component.columns).toEqual(testColumns);
 
                 const slicedColumn = testColumns.slice(3);
-                hideableColumnService.updateColumnList(slicedColumn);
+                hideableColumnService.updateColumnList(createTestColumnList(slicedColumn));
                 expect(component.columns).toEqual(slicedColumn);
             });
 
             it("can select all the columns at once", function() {
                 const testColumns = getHiddenTestColumns();
 
-                hideableColumnService.updateColumnList(testColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(testColumns));
                 component.ngOnInit();
                 component.selectAll();
                 component.columns.forEach(col => {
@@ -78,7 +93,7 @@ export default function(): void {
             it("toggles the hidden state of a column", function() {
                 const testColumns = getTestColumns();
 
-                hideableColumnService.updateColumnList(testColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(testColumns));
                 component.ngOnInit();
 
                 // It inits to true (aka - hidden)
@@ -102,6 +117,17 @@ export default function(): void {
             // Until we can properly type "this"
             let context: TestContext<DatagridColumnToggle, SimpleTest>;
             let hideableColumnService: HideableColumnService;
+
+            function createTestColumnList(hideableColumns: DatagridHideableColumn[]) {
+                const testColumns: DatagridColumn[] = [];
+                hideableColumns.forEach((hideableColumn) => {
+                    const column = new DatagridColumn(new Sort(), new FiltersProvider(), null, hideableColumnService);
+                    column.hideable = hideableColumn;
+                    testColumns.push(column);
+                });
+
+                return testColumns;
+            }
 
             beforeEach(function() {
                 context = this.create(DatagridColumnToggle, SimpleTest, [HideableColumnService]);
@@ -158,7 +184,7 @@ export default function(): void {
                     nbCol++;
                 });
 
-                hideableColumnService.updateColumnList(hideableColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(hideableColumns));
                 iconBtn.click();
                 context.detectChanges();
 
@@ -174,7 +200,7 @@ export default function(): void {
 
                 // Now test when columns are updated
                 const updatedColumns = hideableColumns.slice(3);
-                hideableColumnService.updateColumnList(updatedColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(updatedColumns));
                 context.detectChanges();
 
                 const updatedRenderedTemplates =
@@ -197,7 +223,7 @@ export default function(): void {
                     nbCol++;
                 });
 
-                hideableColumnService.updateColumnList(hideableColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(hideableColumns));
                 iconBtn.click();
                 context.detectChanges();
 
@@ -221,7 +247,7 @@ export default function(): void {
                     nbCol++;
                 });
 
-                hideableColumnService.updateColumnList(hideableColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(hideableColumns));
                 iconBtn.click();
                 context.detectChanges();
 
@@ -257,7 +283,7 @@ export default function(): void {
                 const showing: TemplateRef<any> = context.testComponent.templates.first;
                 hideableColumns.push(new DatagridHideableColumn(showing, `dg-col-${nbCol}`, false));
 
-                hideableColumnService.updateColumnList(hideableColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(hideableColumns));
                 iconBtn.click();
                 context.detectChanges();
 

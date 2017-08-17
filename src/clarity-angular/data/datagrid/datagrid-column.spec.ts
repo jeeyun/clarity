@@ -19,11 +19,13 @@ import {SortOrder} from "./interfaces/sort-order";
 import {StringFilter} from "./interfaces/string-filter";
 import {DragDispatcher} from "./providers/drag-dispatcher";
 import {FiltersProvider} from "./providers/filters";
+import {HideableColumnService} from "./providers/hideable-column.service";
 import {Sort} from "./providers/sort";
 import {DomAdapter} from "./render/dom-adapter";
 import {DatagridRenderOrganizer} from "./render/render-organizer";
 
-const PROVIDERS_NEEDED = [Sort, FiltersProvider, DatagridRenderOrganizer, DomAdapter, DragDispatcher];
+const PROVIDERS_NEEDED =
+    [Sort, FiltersProvider, DatagridRenderOrganizer, DomAdapter, DragDispatcher, HideableColumnService];
 
 export default function(): void {
     describe("DatagridColumn component", function() {
@@ -39,7 +41,8 @@ export default function(): void {
                 filtersService = new FiltersProvider();
                 comparator = new TestComparator();
                 dragDispatcherService = undefined;
-                component = new DatagridColumn(sortService, filtersService, dragDispatcherService);
+                component =
+                    new DatagridColumn(sortService, filtersService, dragDispatcherService, new HideableColumnService());
             });
 
             it("has an id for identification", function() {

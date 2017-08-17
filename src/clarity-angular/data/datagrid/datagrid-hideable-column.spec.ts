@@ -10,11 +10,13 @@ import {DatagridHideableColumn} from "./datagrid-hideable-column";
 import {TestContext} from "./helpers.spec";
 import {DragDispatcher} from "./providers/drag-dispatcher";
 import {FiltersProvider} from "./providers/filters";
+import {HideableColumnService} from "./providers/hideable-column.service";
 import {Sort} from "./providers/sort";
 import {DomAdapter} from "./render/dom-adapter";
 import {DatagridRenderOrganizer} from "./render/render-organizer";
 
-const PROVIDERS_NEEDED = [Sort, FiltersProvider, DatagridRenderOrganizer, DomAdapter, DragDispatcher];
+const PROVIDERS_NEEDED =
+    [Sort, FiltersProvider, DatagridRenderOrganizer, DomAdapter, DragDispatcher, HideableColumnService];
 
 
 export default function(): void {

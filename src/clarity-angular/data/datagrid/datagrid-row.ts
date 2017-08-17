@@ -10,7 +10,7 @@ import {Expand} from "../../utils/expand/providers/expand";
 import {LoadingListener} from "../../utils/loading/loading-listener";
 
 import {DatagridCell} from "./datagrid-cell";
-import {DatagridHideableColumn} from "./datagrid-hideable-column";
+import {DatagridColumn} from "./datagrid-column";
 import {ExpandableRowsCount} from "./providers/global-expandable-rows";
 import {HideableColumnService} from "./providers/hideable-column.service";
 import {RowActionService} from "./providers/row-action-service";
@@ -177,12 +177,12 @@ export class DatagridRow implements AfterContentInit {
      *
      * @param columnList<DatagridColumn[]>
      */
-    public updateCellsForColumns(columnList: DatagridHideableColumn[]) {
+    public updateCellsForColumns(columnList: DatagridColumn[]) {
         // Map cells to columns with Array.index
         this.dgCells.forEach((cell, index) => {
             const currentColumn = columnList[index];  // Accounts for null space.
-            if (currentColumn) {
-                cell.id = currentColumn.id;
+            if (currentColumn && currentColumn.hideable) {
+                cell.id = currentColumn.hideable.id;
             }
         });
     }

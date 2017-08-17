@@ -7,6 +7,7 @@ import {Component} from "@angular/core";
 
 import {Expand} from "../../utils/expand/providers/expand";
 
+import {DatagridColumn} from "./datagrid-column";
 import {DatagridHideableColumn} from "./datagrid-hideable-column";
 import {DatagridRowDetail} from "./datagrid-row-detail";
 import {TestContext} from "./helpers.spec";
@@ -104,6 +105,17 @@ export default function(): void {
         let context: TestContext<DatagridRowDetail, HiddenTest>;
         let hideableColumnService: HideableColumnService;
 
+        function createTestColumnList(hideableColumns: DatagridHideableColumn[]) {
+            const testColumns: DatagridColumn[] = [];
+            hideableColumns.forEach((hideableColumn) => {
+                const column = new DatagridColumn(new Sort(), new FiltersProvider(), null, hideableColumnService);
+                column.hideable = hideableColumn;
+                testColumns.push(column);
+            });
+
+            return testColumns;
+        }
+
         beforeEach(function() {
             context = this.create(DatagridRowDetail, HiddenTest, [
                 Selection, Items, FiltersProvider, Sort, Page, RowActionService, Expand, DatagridRenderOrganizer,
@@ -120,7 +132,7 @@ export default function(): void {
                 new DatagridHideableColumn(undefined, "dg-col-1", true)
             ];
 
-            hideableColumnService.updateColumnList(hiddenColumns);
+            hideableColumnService.updateColumnList(createTestColumnList(hiddenColumns));
             expect(context.clarityDirective.updateCellsForColumns).toHaveBeenCalled();
         });
     });

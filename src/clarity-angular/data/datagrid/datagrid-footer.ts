@@ -40,13 +40,13 @@ export class DatagridFooter implements OnInit {
 
     ngOnInit() {
         this.subscriptions.push(this.hideableColumnService.columnListChange.subscribe((change) => {
-            const hiddenColumnsInSub = change.filter(col => col);
+            const hiddenColumnsInSub = change.filter(col => col.hideable);
             if (hiddenColumnsInSub.length > 0) {
                 this.activeToggler = true;
             }
         }));
 
-        const hiddenColumns = this.hideableColumnService.getColumns().filter(col => col);
+        const hiddenColumns = this.hideableColumnService.getColumns().filter(col => col.hideable);
 
         if (hiddenColumns.length > 0) {
             this.activeToggler = true;

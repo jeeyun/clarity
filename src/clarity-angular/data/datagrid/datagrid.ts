@@ -203,11 +203,19 @@ export class Datagrid implements AfterContentInit, AfterViewInit, OnDestroy {
         }
 
         this._subscriptions.push(this.columns.changes.subscribe((columns: DatagridColumn[]) => {
-            this.columnService.updateColumnList(this.columns.map(col => col.hideable));
+            this.updateColumnList();
         }));
 
         // Get ColumnService ready for HideableColumns.
-        this.columnService.updateColumnList(this.columns.map(col => col.hideable));
+        this.updateColumnList();
+    }
+
+    private updateColumnList() {
+        const visibleColumns = this.columns.filter(column => !column.hidden);
+        if (visibleColumns.length === 1) {
+            visibleColumns[0].showColumnSeparator = false;
+        }
+        this.columnService.updateColumnList(this.columns.toArray());
     }
 
     /**

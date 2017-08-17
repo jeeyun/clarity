@@ -4,13 +4,28 @@
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 
+import {DatagridColumn} from "../datagrid-column";
 import {DatagridHideableColumn} from "../datagrid-hideable-column";
+
+import {FiltersProvider} from "./filters";
 import {HideableColumnService} from "./hideable-column.service";
+import {Sort} from "./sort";
 
 export default function(): void {
     describe("DatagridHideableColumn provider", function() {
 
         let columnService: HideableColumnService;
+
+        function createTestColumnList(hideableColumns: DatagridHideableColumn[]) {
+            const testColumns: DatagridColumn[] = [];
+            hideableColumns.forEach((hideableColumn) => {
+                const column = new DatagridColumn(new Sort(), new FiltersProvider(), null, columnService);
+                column.hideable = hideableColumn;
+                testColumns.push(column);
+            });
+
+            return testColumns;
+        }
 
         beforeEach(function() {
             columnService = new HideableColumnService();
@@ -23,36 +38,36 @@ export default function(): void {
             ];
 
             // test when they are all showing
-            columnService.updateColumnList(initialTestColumns);
+            columnService.updateColumnList(createTestColumnList(initialTestColumns));
             expect(columnService.canHideNextColumn).toBe(true);
             // hide 1/3 test
             initialTestColumns[0].hidden = true;
-            columnService.updateColumnList(initialTestColumns);
+            columnService.updateColumnList(createTestColumnList(initialTestColumns));
             expect(columnService.canHideNextColumn).toBe(true);
             // hide 2/3 test
             initialTestColumns[1].hidden = true;
-            columnService.updateColumnList(initialTestColumns);
+            columnService.updateColumnList(createTestColumnList(initialTestColumns));
             expect(columnService.canHideNextColumn).toBe(false);
 
             // hide 1/3 (does it flip back remix)
             initialTestColumns[1].hidden = false;
-            columnService.updateColumnList(initialTestColumns);
+            columnService.updateColumnList(createTestColumnList(initialTestColumns));
             expect(columnService.canHideNextColumn).toBe(true);
         });
 
         it("resets the lastVisibleColumn when showing all columns", function() {
-            let restTestColumns: DatagridHideableColumn[];
+            let restTestColumns: DatagridColumn[];
             const col1: DatagridHideableColumn = new DatagridHideableColumn(null, "dg-col-1", false);
             const col2: DatagridHideableColumn = new DatagridHideableColumn(null, "dg-col-2", true);
             const col3: DatagridHideableColumn = new DatagridHideableColumn(null, "dg-col-3", true);
             const initialTestColumns: DatagridHideableColumn[] = [col1, col2, col3];
 
             col1.lastVisibleColumn = true;
-            columnService.updateColumnList(initialTestColumns);
+            columnService.updateColumnList(createTestColumnList(initialTestColumns));
             restTestColumns = columnService.getColumns();
-            expect(restTestColumns[0].lastVisibleColumn).toBe(true);
+            expect(restTestColumns[0].hideable.lastVisibleColumn).toBe(true);
             columnService.showHiddenColumns();
-            expect(restTestColumns[0].lastVisibleColumn).toBe(false);
+            expect(restTestColumns[0].hideable.lastVisibleColumn).toBe(false);
         });
 
         it("checks for all columns visible", function() {
@@ -61,7 +76,7 @@ export default function(): void {
                 new DatagridHideableColumn(null, "dg-col-2", false), new DatagridHideableColumn(null, "dg-col-3", false)
             ];
 
-            columnService.updateColumnList(testColumns);
+            columnService.updateColumnList(createTestColumnList(testColumns));
             expect(columnService.checkForAllColumnsVisible).toBe(true);
             testColumns[0].hidden = true;
             expect(columnService.checkForAllColumnsVisible).toBe(false);
@@ -74,20 +89,23 @@ export default function(): void {
                 new DatagridHideableColumn(null, "dg-col-2", false), new DatagridHideableColumn(null, "dg-col-3", false)
             ];
             let nbChanges: number = 0;
-            let testList: DatagridHideableColumn[];
+            let testList: DatagridColumn[];
 
             expect(columnService.columnListChange).toBeDefined();
             expect(testList).toBeUndefined();
 
             // Empty on init.
-            columnService.columnListChange.subscribe((change: DatagridHideableColumn[]) => {
+            columnService.columnListChange.subscribe((change: DatagridColumn[]) => {
                 nbChanges++;
                 testList = change;
             });
             expect(testList).toEqual([]);
             expect(nbChanges).toEqual(1);
-            columnService.updateColumnList(testColumns);
-            expect(testList).toEqual(testColumns);
+            columnService.updateColumnList(createTestColumnList(testColumns));
+
+            testList.forEach((column, idx) => {
+                expect(testList[idx].hideable).toEqual(testColumns[idx]);
+            });
             expect(nbChanges).toEqual(2);
         });
 
@@ -99,18 +117,18 @@ export default function(): void {
 
             expect(columnService.getColumns()).toBeDefined();
             expect(columnService.getColumns()).toEqual([]);
-            columnService.updateColumnList(testColumns);
-            expect(columnService.getColumns()).toEqual(testColumns);
+            columnService.updateColumnList(createTestColumnList(testColumns));
+            expect(columnService.getHideableColumns()).toEqual(testColumns);
         });
 
         it("shows all hidden columns", function() {
-            let testShowAllColumns: DatagridHideableColumn[];
+            let testShowAllColumns: DatagridColumn[];
             const hiddenTestColumns: DatagridHideableColumn[] = [
                 new DatagridHideableColumn(null, "dg-col-1", true), new DatagridHideableColumn(null, "dg-col-2", true),
                 new DatagridHideableColumn(null, "dg-col-3", true)
             ];
 
-            columnService.updateColumnList(hiddenTestColumns);
+            columnService.updateColumnList(createTestColumnList(hiddenTestColumns));
             testShowAllColumns = columnService.getColumns();
             testShowAllColumns.forEach(col => expect(col.hidden).toBe(true));
             columnService.showHiddenColumns();
@@ -125,8 +143,8 @@ export default function(): void {
 
             expect(columnService.updateColumnList).toBeDefined();
             expect(columnService.getColumns()).not.toEqual(newColumnList);
-            columnService.updateColumnList(newColumnList);
-            expect(columnService.getColumns()).toEqual(newColumnList);
+            columnService.updateColumnList(createTestColumnList(newColumnList));
+            expect(columnService.getHideableColumns()).toEqual(newColumnList);
         });
 
         it("updates columnListChange for the lastVisibleColumn", function() {
@@ -136,12 +154,12 @@ export default function(): void {
             ];
 
             // Setup
-            columnService.updateColumnList(visibleTestColumns);
+            columnService.updateColumnList(createTestColumnList(visibleTestColumns));
 
             // Nothing changed yet - lvc defaults to false
             const initialColumnsState = columnService.getColumns();
             initialColumnsState.forEach(col => {
-                expect(col.lastVisibleColumn).toBe(false);
+                expect(col.hideable.lastVisibleColumn).toBe(false);
             });
 
             // hide 2/3 columns
@@ -149,21 +167,21 @@ export default function(): void {
             visibleTestColumns[1].hidden = true;
 
             // Update the list
-            columnService.updateColumnList(visibleTestColumns);
+            columnService.updateColumnList(createTestColumnList(visibleTestColumns));
             const flaggedColumns = columnService.getColumns();
             // Check that the correct flag is set
-            expect(flaggedColumns[0].lastVisibleColumn).toBe(false);
-            expect(flaggedColumns[1].lastVisibleColumn).toBe(false);
-            expect(flaggedColumns[2].lastVisibleColumn).toBe(true);
+            expect(flaggedColumns[0].hideable.lastVisibleColumn).toBe(false);
+            expect(flaggedColumns[1].hideable.lastVisibleColumn).toBe(false);
+            expect(flaggedColumns[2].hideable.lastVisibleColumn).toBe(true);
 
             // Flip one flag back
             visibleTestColumns[0].hidden = false;
 
             // Update list
-            columnService.updateColumnList(visibleTestColumns);
+            columnService.updateColumnList(createTestColumnList(visibleTestColumns));
             const unFlaggedColumns = columnService.getColumns();
             // Test that the flag is correct.
-            expect(unFlaggedColumns[2].lastVisibleColumn).toBe(false);
+            expect(unFlaggedColumns[2].hideable.lastVisibleColumn).toBe(false);
         });
 
         it("looks up columns by id", function() {
@@ -175,7 +193,7 @@ export default function(): void {
             ];
 
             // Setup
-            columnService.updateColumnList(visibleTestColumns);
+            columnService.updateColumnList(createTestColumnList(visibleTestColumns));
             // Test that we can find something that is a hideable column
             expect(visibleTestColumns[0]).toEqual(columnService.getColumnById("dg-col-1"));
 

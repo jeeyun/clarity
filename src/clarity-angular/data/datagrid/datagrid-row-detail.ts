@@ -9,7 +9,7 @@ import {Subscription} from "rxjs/Subscription";
 import {Expand} from "../../utils/expand/providers/expand";
 
 import {DatagridCell} from "./datagrid-cell";
-import {DatagridHideableColumn} from "./datagrid-hideable-column";
+import {DatagridColumn} from "./datagrid-column";
 import {HideableColumnService} from "./providers/hideable-column.service";
 import {RowActionService} from "./providers/row-action-service";
 import {Selection, SelectionType} from "./providers/selection";
@@ -77,11 +77,11 @@ export class DatagridRowDetail implements AfterContentInit, OnDestroy {
         });
     }
 
-    public updateCellsForColumns(columnList: DatagridHideableColumn[]) {
+    public updateCellsForColumns(columnList: DatagridColumn[]) {
         this.cells.forEach((cell, index) => {
             const currentColumn = columnList[index];  // Accounts for null space.
-            if (currentColumn) {
-                cell.id = currentColumn.id;
+            if (currentColumn && currentColumn.hideable) {
+                cell.id = currentColumn.hideable.id;
             }
         });
     }

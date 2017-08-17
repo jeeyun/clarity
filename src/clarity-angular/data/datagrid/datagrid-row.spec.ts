@@ -11,6 +11,7 @@ import {Expand} from "../../utils/expand/providers/expand";
 import {LoadingListener} from "../../utils/loading/loading-listener";
 
 import {DatagridWillyWonka} from "./chocolate/datagrid-willy-wonka";
+import {DatagridColumn} from "./datagrid-column";
 import {DatagridHideableColumn} from "./datagrid-hideable-column";
 import {DatagridRow} from "./datagrid-row";
 import {TestContext} from "./helpers.spec";
@@ -251,6 +252,17 @@ export default function(): void {
             let context: TestContext<DatagridRow, ExpandTest>;
             let hideableColumnService: HideableColumnService;
 
+            function createTestColumnList(hideableColumns: DatagridHideableColumn[]) {
+                const testColumns: DatagridColumn[] = [];
+                hideableColumns.forEach((hideableColumn) => {
+                    const column = new DatagridColumn(new Sort(), new FiltersProvider(), null, hideableColumnService);
+                    column.hideable = hideableColumn;
+                    testColumns.push(column);
+                });
+
+                return testColumns;
+            }
+
             beforeEach(function() {
                 context = this.create(DatagridRow, HideShowTest, PROVIDERS);
                 hideableColumnService = context.getClarityProvider(HideableColumnService);
@@ -266,7 +278,7 @@ export default function(): void {
                     new DatagridHideableColumn(null, "dg-col-1", true)
                 ];
 
-                hideableColumnService.updateColumnList(hiddenColumns);
+                hideableColumnService.updateColumnList(createTestColumnList(hiddenColumns));
                 expect(context.clarityDirective.updateCellsForColumns).toHaveBeenCalled();
 
             });

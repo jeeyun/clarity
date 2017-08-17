@@ -102,8 +102,8 @@ export class DatagridColumnToggle implements OnInit, OnDestroy {
 
             // Add only the hidden columns to the toggler.
             columnList.forEach((col) => {
-                if (col) {
-                    this.columns.push(col);
+                if (col.hideable) {
+                    this.columns.push(col.hideable);
                 }
             });
         });

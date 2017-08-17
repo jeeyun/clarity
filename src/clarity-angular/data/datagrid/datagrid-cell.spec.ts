@@ -6,15 +6,29 @@
 import {Component} from "@angular/core";
 
 import {DatagridCell} from "./datagrid-cell";
+import {DatagridColumn} from "./datagrid-column";
 import {DatagridHideableColumn} from "./datagrid-hideable-column";
 import {TestContext} from "./helpers.spec";
+import {FiltersProvider} from "./providers/filters";
 import {HideableColumnService} from "./providers/hideable-column.service";
+import {Sort} from "./providers/sort";
 import {DatagridRenderOrganizer} from "./render/render-organizer";
 
 export default function(): void {
     describe("DatagridCell component", function() {
         let context: TestContext<DatagridCell, SimpleTest>;
         let hideableColumnService: HideableColumnService;
+
+        function createTestColumnList(hideableColumns: DatagridHideableColumn[]) {
+            const testColumns: DatagridColumn[] = [];
+            hideableColumns.forEach((hideableColumn) => {
+                const column = new DatagridColumn(new Sort(), new FiltersProvider(), null, hideableColumnService);
+                column.hideable = hideableColumn;
+                testColumns.push(column);
+            });
+
+            return testColumns;
+        }
 
         beforeEach(function() {
             context = this.create(DatagridCell, SimpleTest, [DatagridRenderOrganizer, HideableColumnService]);
@@ -31,7 +45,7 @@ export default function(): void {
         it("adds the .datagrid-cell--hidden class to the host", function() {
             const testColumn: DatagridHideableColumn[] = [new DatagridHideableColumn(null, "dg-col-0", true)];
             hideableColumnService = context.getClarityProvider(HideableColumnService);
-            hideableColumnService.updateColumnList(testColumn);
+            hideableColumnService.updateColumnList(createTestColumnList(testColumn));
             context.clarityDirective.id = "dg-col-0";
             context.detectChanges();
             expect(context.clarityElement.classList.contains("datagrid-cell--hidden")).toBeTruthy();
