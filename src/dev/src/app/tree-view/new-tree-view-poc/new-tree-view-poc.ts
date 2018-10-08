@@ -4,13 +4,14 @@
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 import { Component } from '@angular/core';
+import { ClrTreeNodeModel } from '../../../../../clr-angular/data/tree-view/tree-node-model';
 
 @Component({
-  selector: 'clr-child-node-selected-demo',
+  selector: 'clr-new-tree-view-poc-demo',
   styleUrls: ['../tree-view.demo.scss'],
-  templateUrl: './child-node-selected.html',
+  templateUrl: './new-tree-view-poc.html',
 })
-export class ChildNodeSelectedDemo {
+export class NewTreeNodePOCDemo {
   selectedA: boolean;
   selectedA1: boolean;
   selectedA2: boolean;
@@ -37,8 +38,18 @@ export class ChildNodeSelectedDemo {
 
   recursiveEagerTree;
   recursiveLazyTree;
+  modelA: ClrTreeNodeModel = new ClrTreeNodeModel('A');
+  modelA1: ClrTreeNodeModel = new ClrTreeNodeModel('A1');
+  modelA2: ClrTreeNodeModel = new ClrTreeNodeModel('A2');
+  modelA3: ClrTreeNodeModel = new ClrTreeNodeModel('A3');
+  modelA4: ClrTreeNodeModel = new ClrTreeNodeModel('A4');
+  modelA31: ClrTreeNodeModel = new ClrTreeNodeModel('A3-1');
+  modelA32: ClrTreeNodeModel = new ClrTreeNodeModel('A3-2');
+  modelA33: ClrTreeNodeModel = new ClrTreeNodeModel('A3-3');
 
   constructor() {
+    this.modelA.indeterminate = true;
+
     this.recursiveEagerTree = {
       content: 'B',
       selectedVar: false,

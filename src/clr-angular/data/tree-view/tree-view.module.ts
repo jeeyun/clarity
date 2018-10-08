@@ -12,8 +12,11 @@ import { ClrFormsModule } from '../../forms-deprecated/forms.module';
 import { ClrIconModule } from '../../icon/icon.module';
 import { ClrIfExpandModule } from '../../utils/expand/if-expand.module';
 import { ClrTreeNode } from './tree-node';
+import { ClrTree } from './tree';
+import { TreeNodesDirective } from './tree-node.directive';
+import { ClrTreeNodeNew } from './tree-node-new';
 
-export const CLR_TREE_VIEW_DIRECTIVES: Type<any>[] = [ClrTreeNode];
+export const CLR_TREE_VIEW_DIRECTIVES: Type<any>[] = [ClrTreeNode, ClrTreeNodeNew, ClrTree, TreeNodesDirective];
 
 @NgModule({
   imports: [CommonModule, ClrIconModule, FormsModule, ClrFormsModule],

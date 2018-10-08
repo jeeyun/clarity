@@ -24,13 +24,15 @@ import { TreeViewDynamicDemo } from './tree-view-dynamic/tree-view-dynamic';
 import { TreeViewDynamicTestDemo } from './tree-view-dynamic/tree-view-dynamic-test';
 import { TreeViewDemo } from './tree-view.demo';
 import { TreeNode10kDemo } from './trees-10k/tree-10k.demo';
+import { NewTreeNodePOCDemo } from './new-tree-view-poc/new-tree-view-poc';
 
 const ROUTES: Routes = [
   {
     path: '',
     component: TreeViewDemo,
     children: [
-      { path: '', redirectTo: 'basic-tree-node', pathMatch: 'full' },
+      { path: '', redirectTo: 'new-tree-view-poc', pathMatch: 'full' },
+      { path: 'new-tree-view-poc', component: NewTreeNodePOCDemo },
       { path: 'basic-tree-node', component: TreeNodeBasicStructureDemo },
       { path: 'basic-tree-node-expanded', component: TreeNodeBasicExpandedStructureDemo },
       { path: 'label-change-on-expand', component: TreeNodeLabelChangeOnExpandDemo },

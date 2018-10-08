@@ -3,13 +3,12 @@
   ~ This software is released under MIT license.
   ~ The full license information can be found in LICENSE in the root directory of this project.
   -->
-
 <div class="clr-tree-node-content-container">
     <button
         type="button"
         class="clr-treenode-caret"
         (click)="toggleExpand()"
-        *ngIf="nodeExpand.expandable && !nodeExpand.loading"
+        *ngIf="(nodeExpand.expandable || treeService.getChildren) && !nodeExpand.loading && !hideExpand"
         [attr.aria-expanded]="nodeExpand.expanded">
         <clr-icon
             class="clr-treenode-caret-icon"
@@ -17,7 +16,7 @@
             [attr.dir]="caretDirection"
             [attr.title]="caretTitle"></clr-icon>
     </button>
-    <div class="clr-treenode-spinner-container" *ngIf="nodeExpand.expandable && nodeExpand.loading">
+    <div class="clr-treenode-spinner-container" *ngIf="(nodeExpand.expandable || treeService.getChildren) && nodeExpand.loading && !hideExpand">
         <span class="clr-treenode-spinner spinner">
             Loading...
         </span>
@@ -28,16 +27,16 @@
         *ngIf="selectable"
         [(ngModel)]="selected"
         [(clrIndeterminate)]="indeterminate"
+        [clrDisabled]="disabled"
         [clrAriaLabeledBy]="nodeId"></clr-checkbox>
     <div class="clr-treenode-content" [id]="nodeId">
-        <ng-content></ng-content>
+      <ng-content></ng-content>
     </div>
 </div>
-<!-- FIXME: remove this string concatenation when boolean states are supported -->
 <div
     class="clr-treenode-children"
     [@childNodesState]="state"
     [attr.role]="ariaTreeNodeChildrenRole">
-    <ng-content select="clr-tree-node"></ng-content>
+    <ng-container #childNodesContainer></ng-container>
     <ng-content select="[clrIfExpanded]"></ng-content>
 </div>

@@ -13,6 +13,7 @@ import { ClrLoadingState } from '../../loading/loading';
 export class Expand implements LoadingListener {
   public expandable: number = 0;
   public replace: boolean = false;
+  public lazyload: boolean = false;
 
   private _loading: boolean = false;
   get loading(): boolean {

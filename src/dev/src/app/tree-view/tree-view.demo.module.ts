@@ -31,6 +31,7 @@ import { TreeViewDynamicTestDemo } from './tree-view-dynamic/tree-view-dynamic-t
 import { TreeViewDemo } from './tree-view.demo';
 import { ROUTING } from './tree-view.demo.routing';
 import { TreeNode10kDemo } from './trees-10k/tree-10k.demo';
+import { NewTreeNodePOCDemo } from './new-tree-view-poc/new-tree-view-poc';
 
 @NgModule({
   imports: [CommonModule, ClarityModule, ROUTING, UtilsDemoModule],
@@ -56,6 +57,7 @@ import { TreeNode10kDemo } from './trees-10k/tree-10k.demo';
     TreeViewDynamicDemo,
     TreeViewDynamicTestDemo,
     IndeterminateNodeDemo,
+    NewTreeNodePOCDemo,
   ],
   exports: [TreeViewDemo],
 })

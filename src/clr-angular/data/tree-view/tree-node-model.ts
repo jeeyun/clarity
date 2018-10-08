@@ -1,45 +1,25 @@
-/*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
- * This software is released under MIT license.
- * The full license information can be found in LICENSE in the root directory of this project.
- */
+export class ClrTreeNodeModel<T = any> {
+  _selected: boolean;
+  _indeterminate: boolean;
+  disabled: boolean;
+  model: T;
+  parent: ClrTreeNodeModel<T>;
+  children: ClrTreeNodeModel<T>[] = [];
 
-export abstract class AbstractTreeSelection {
-  constructor(public parent: AbstractTreeSelection) {}
-
-  abstract get children(): AbstractTreeSelection[];
-  abstract get isLazyTree(): boolean;
-
-  abstract selectedChanged(): void;
-  abstract indeterminateChanged(): void;
-
-  private _disabled: boolean = false;
-  private _selected: boolean = false;
-  private _indeterminate: boolean = false;
-
-  public get disabled(): boolean {
-    return this._disabled;
-  }
-
-  public set disabled(value: boolean) {
-    this._disabled = !!value;
-  }
-
-  public get selected(): boolean {
-    return this._selected;
+  constructor(model: T) {
+    this.model = model;
   }
 
   public set selected(value: boolean) {
-    const oldValue = this._selected;
+    const oldValue = this.selected;
     this._selected = value;
     if (this._selected) {
       this.indeterminate = false;
     }
-    if (oldValue !== this._selected) {
-      this.selectedChanged();
-    }
-    if (!this.isLazyTree) {
-      // console.log('not lazy tree', this.children);
+
+    if (true) {
+      // TODO: isLazyTree()
+      console.log(this.children);
       this.children.forEach(child => child.updateBasedOnParent());
 
       if (this.parent) {
@@ -50,8 +30,8 @@ export abstract class AbstractTreeSelection {
     }
   }
 
-  public get indeterminate(): boolean {
-    return this._indeterminate;
+  public get selected() {
+    return this._selected;
   }
 
   public set indeterminate(value: boolean) {
@@ -61,9 +41,13 @@ export abstract class AbstractTreeSelection {
     if (this._indeterminate) {
       this.selected = false;
     }
-    if (oldValue !== this._indeterminate) {
-      this.indeterminateChanged();
-    }
+    // if (oldValue !== this._selected) {
+    //   this.selectedChanged();
+    // }
+  }
+
+  public get indeterminate() {
+    return this._indeterminate;
   }
 
   updateBasedOnChildren() {
@@ -91,13 +75,13 @@ export abstract class AbstractTreeSelection {
     // if there's at least one indeterminate child, or if it has both selected and unselected children, then the current node is indeterminate
     this._indeterminate = indeterminateChildCount > 0 || (selectedChildCount > 0 && unselectedChildCount > 0);
 
-    if (this.selected !== previousSelectedValue) {
-      this.selectedChanged();
-    }
-
-    if (this.indeterminate !== previousIndeterminateValue) {
-      this.indeterminateChanged();
-    }
+    // if (this.selected !== previousSelectedValue) {
+    //   this.selectedChanged();
+    // }
+    //
+    // if (this.indeterminate !== previousIndeterminateValue) {
+    //   this.indeterminateChanged();
+    // }
 
     if (
       this.parent &&
@@ -123,13 +107,13 @@ export abstract class AbstractTreeSelection {
         this.children.forEach(child => child.updateBasedOnParent());
       }
 
-      if (this.selected !== previousSelectedValue) {
-        this.selectedChanged();
-      }
-
-      if (this.indeterminate !== previousIndeterminateValue) {
-        this.indeterminateChanged();
-      }
+      // if (this.selected !== previousSelectedValue) {
+      //   this.selectedChanged();
+      // }
+      //
+      // if (this.indeterminate !== previousIndeterminateValue) {
+      //   this.indeterminateChanged();
+      // }
     }
   }
 }

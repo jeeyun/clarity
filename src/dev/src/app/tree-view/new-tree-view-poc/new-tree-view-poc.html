@@ -1,0 +1,131 @@
+<!--
+  ~ Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+  ~ This software is released under MIT license.
+  ~ The full license information can be found in LICENSE in the root directory of this project.
+  -->
+
+<div class="clr-example">
+  <h1>Non-recursive, eager-loaded children</h1>
+  <!--A indeterminate: {{aIndeterminate}} <br>-->
+  <!--A selected: {{selectedA}} <br>-->
+
+  <!--A3 indeterminate: {{a3Indeterminate}} <br>-->
+  <!--A3 selected: {{selectedA3}} <br>-->
+
+  <!--A31 selected: {{selectedA31}} <br>-->
+
+  <!--A32 selected: {{selectedA32}} <br>-->
+
+  <!--A33 selected: {{selectedA33}} <br>-->
+  <clr-tree>
+    <clr-tree-node-new [clrTreeNodeModel]="modelA">
+      {{modelA.model}}
+      <ng-container [clrIfExpanded]="true">
+        <clr-tree-node-new [clrTreeNodeModel]="modelA1">
+          {{modelA1.model}}
+        </clr-tree-node-new>
+        <clr-tree-node-new [clrTreeNodeModel]="modelA2">
+          {{modelA2.model}}
+        </clr-tree-node-new>
+        <clr-tree-node-new [clrTreeNodeModel]="modelA3">
+          {{modelA3.model}}
+          <ng-container [clrIfExpanded]="false">
+            <clr-tree-node-new [clrTreeNodeModel]="modelA31">
+              {{modelA31.model}}
+            </clr-tree-node-new>
+            <clr-tree-node-new [clrTreeNodeModel]="modelA32">
+              {{modelA32.model}}
+            </clr-tree-node-new>
+            <clr-tree-node-new [clrTreeNodeModel]="modelA33">
+              {{modelA33.model}}
+            </clr-tree-node-new>
+          </ng-container>
+        </clr-tree-node-new>
+        <clr-tree-node-new [clrTreeNodeModel]="modelA4">
+          {{modelA4.model}}
+        </clr-tree-node-new>
+      </ng-container>
+    </clr-tree-node-new>
+    <!--<clr-tree-node [(clrSelected)]="selectedA" [(clrIndeterminate)]="aIndeterminate">-->
+    <!--A-->
+    <!--<ng-container [clrIfExpanded]="true">-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA1">-->
+    <!--A-1-->
+    <!--</clr-tree-node>-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA2">-->
+    <!--A-2-->
+    <!--</clr-tree-node>-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA3" [(clrIndeterminate)]="a3Indeterminate">-->
+    <!--A-3-->
+    <!--<ng-container [clrIfExpanded]="false">-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA31">-->
+    <!--A-3.1-->
+    <!--</clr-tree-node>-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA32">-->
+    <!--A-3.2-->
+    <!--</clr-tree-node>-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA33">-->
+    <!--A-3.3-->
+    <!--</clr-tree-node>-->
+    <!--</ng-container>-->
+    <!--</clr-tree-node>-->
+    <!--<clr-tree-node [(clrSelected)]="selectedA4">-->
+    <!--A-4-->
+    <!--</clr-tree-node>-->
+    <!--</ng-container>-->
+    <!--</clr-tree-node>-->
+  </clr-tree>
+
+  <h1>Recursive, eager-loaded children</h1>
+
+  <!--<clr-tree>-->
+    <!--<clr-tree-node *clrNodes="let node of recursiveEagerTree; children: loadStaticChildren" [(clrSelected)]="node.selectedVar" [(clrIndeterminate)]="node.indetVar" [clrNodeModel]="node">-->
+      <!--{{node.content}}-->
+    <!--</clr-tree-node>-->
+  <!--</clr-tree>-->
+
+  <!--<button class="btn btn-primary" (click)="doSomething(recursiveEagerTree)">Do something</button>-->
+
+  <h1>Non-recursive, lazy-loaded children</h1>
+  <!--<clr-tree [clrLazyload]="true">-->
+    <!--<clr-tree-node [(clrSelected)]="selectedC" [(clrIndeterminate)]="cIndeterminate">-->
+      <!--C-->
+      <!--<ng-template [clrIfExpanded]="true">-->
+        <!--<clr-tree-node [(clrSelected)]="selectedC1">-->
+          <!--C-1-->
+        <!--</clr-tree-node>-->
+        <!--<clr-tree-node [(clrSelected)]="selectedC2">-->
+          <!--C-2-->
+        <!--</clr-tree-node>-->
+        <!--<clr-tree-node [(clrSelected)]="selectedC3" [(clrIndeterminate)]="c3Indeterminate">-->
+          <!--C-3-->
+          <!--<ng-template [clrIfExpanded]="true">-->
+            <!--<clr-tree-node [(clrSelected)]="selectedC31">-->
+              <!--C-3.1-->
+            <!--</clr-tree-node>-->
+            <!--<clr-tree-node [(clrSelected)]="selectedC32">-->
+              <!--C-3.2-->
+            <!--</clr-tree-node>-->
+            <!--<clr-tree-node [(clrSelected)]="selectedC33">-->
+              <!--C-3.3-->
+            <!--</clr-tree-node>-->
+          <!--</ng-template>-->
+        <!--</clr-tree-node>-->
+        <!--<clr-tree-node [(clrSelected)]="selectedC4">-->
+          <!--C-4-->
+        <!--</clr-tree-node>-->
+      <!--</ng-template>-->
+    <!--</clr-tree-node>-->
+  <!--</clr-tree>-->
+
+  <h1>Recursive, lazy-loaded children</h1>
+
+  <!--<clr-tree [clrLazyload]="true">-->
+      <!--<clr-tree-node *clrNodes="let node of recursiveLazyTree; children: loadChildren" [(clrSelected)]="node.selectedVar" [clrNodeModel]="node">-->
+        <!--{{node.content}}-->
+      <!--</clr-tree-node>-->
+  <!--</clr-tree>-->
+
+  <!--<button class="btn btn-primary" (click)="doSomething(recursiveLazyTree)">Do something</button>-->
+
+</div>
