@@ -5,36 +5,94 @@
 @import '../../popover/dropdown/menu-mixins.clarity';
 
 @include exports('combobox.clarity') {
-  .clr-combobox {
-    display: inline-block;
+  .clr-aria-only {
+    display: none;
   }
 
-  .clr-combobox-input-container {
-    display: flex;
-    align-items: center;
-  }
+  .clr-combobox-container {
+    position: relative;
 
-  .clr-combobox-input {
     //Dimensions
     padding: 0 $clr-ng-select-trigger-right-padding 0 $clr-ng-select-trigger-left-padding;
     min-height: $clr-ng-select-min-height;
-    width: $clr-ng-select-min-width;
+    min-width: $clr-ng-select-min-width;
     font-size: $clr-ng-select-font-size;
+
+    &.multi {
+      min-width: $clr-ng-multiselect-min-width;
+      padding-bottom: 0.125rem;
+    }
 
     //Mixins
     @include form-fields-appearance($clr-forms-border-color);
-    @include input-border-bottom-animation($clr-forms-focused-color);
+
+    // override the above mixin for combobox-specific styles
+    background: hsl(201, 10%, 96%); // #F4F5F6
+    border-bottom: $clr-global-borderwidth solid $clr-forms-border-color;
+    //border-radius: $clr-default-borderradius;
+
+    //@include input-border-bottom-animation($clr-forms-focused-color);
+
+    // ideally I want to just use &:focus-within, but cross-browser support is limited
+    // for now, we programmatically add/remove .clr-focus class to achieve this
+    &:focus-within,
+    &.clr-focus {
+      border-bottom: 2px solid $clr-forms-focused-color;
+    }
 
     //Others
-    outline: none;
+    .clr-combobox-input {
+      background: none;
+      border-bottom: none;
+
+      &:focus,
+      &.clr-focus {
+        background: none !important;
+        border-bottom: none !important;
+      }
+    }
+
+    .clr-combobox-remove-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.166667rem 0.166667rem;
+    }
+
+    .label-combobox-pill {
+      margin: 0.125rem 0.125rem 0 0;
+      background-color: hsl(201, 80%, 95%); // #E8F5fC
+      border: 1px solid hsl(201, 55%, 81%); // #B4D7E9
+      padding: 0 0.166667rem;
+
+      .clr-combobox-pill-content {
+        padding: 0 0.333334rem 0 0.166667rem;
+      }
+    }
+
+    .clr-combobox-input-wrapper {
+      border: none;
+      background: none;
+    }
+
+    .clr-combobox-absolute-input-wrapper {
+      position: absolute;
+      left: -2px;
+
+      .clr-combobox-input {
+        width: $clr-ng-select-min-width - 0.75rem;
+      }
+    }
   }
 
   .clr-combobox-trigger {
     //Dimensions
-    height: $clr-ng-select-trigger-dimensions;
     width: $clr-ng-select-trigger-dimensions;
-    padding: 0;
-    margin: 0;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
 
     //Other
     background: none;
@@ -42,13 +100,26 @@
     color: $clr-ng-select-trigger-color;
     cursor: pointer;
     outline: none;
-    transform: translateX(-1 * $clr-ng-select-trigger-dimensions);
   }
 
   .clr-options {
     @include generate-dropdown-menu();
+    max-height: 10rem;
+    overflow-y: scroll;
 
     visibility: visible;
+
+    .clr-options-loading {
+      padding: 0.125rem 1rem;
+
+      .clr-options-loading-text {
+        padding-left: 0.25rem;
+      }
+    }
+
+    .clr-options-empty-text {
+      padding-left: 0.5rem;
+    }
   }
 
   .clr-option {
@@ -64,6 +135,16 @@
     &:hover,
     &.active {
       background: none;
+    }
+  }
+
+  .clr-combobox-disabled {
+    @include disabled-form-fields();
+
+    .clr-combobox-input,
+    .clr-combobox-remove-btn,
+    .clr-combobox-trigger {
+      cursor: not-allowed;
     }
   }
 }

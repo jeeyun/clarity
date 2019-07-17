@@ -7,7 +7,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID, Renderer2, SkipSelf } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { IfOpenService } from '../../../utils/conditional/if-open.service';
 import { customFocusableItemProvider } from '../../../utils/focus/focusable-item/custom-focusable-item-provider';
 import { UNIQUE_ID } from '../../../utils/id-generator/id-generator.service';
@@ -16,7 +16,6 @@ import { FocusService } from '../../../utils/focus/focus.service';
 import { FocusableItem } from '../../../utils/focus/focusable-item/focusable-item';
 import { linkParent, linkVertical } from '../../../utils/focus/focusable-item/linkers';
 import { wrapObservable } from '../../../utils/focus/wrap-observable';
-import { take } from 'rxjs/operators';
 
 @Injectable()
 export class DropdownFocusHandler implements FocusableItem {

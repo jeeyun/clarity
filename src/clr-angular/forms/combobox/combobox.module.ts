@@ -1,22 +1,35 @@
 /**
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+ * Copyright (c) 2016-2019 VMware, Inc. All Rights Reserved.
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { ClrIconModule } from '../../icon/icon.module';
+import { ClrCommonFormsModule } from '../common/common.module';
 import { ClrConditionalModule } from '../../utils/conditional/conditional.module';
 
 import { ClrOption } from './option';
 import { ClrOptions } from './options';
 import { ClrCombobox } from './combobox';
+import { ClrComboboxContainer } from './combobox-container';
+import { ClrOptionSelected } from './option-selected.directive';
 
 @NgModule({
-  imports: [CommonModule, ClrIconModule],
-  declarations: [ClrCombobox, ClrOptions, ClrOption],
-  exports: [ClrCombobox, ClrOptions, ClrOption, ClrConditionalModule],
+  imports: [CommonModule, FormsModule, ClrIconModule, ClrCommonFormsModule],
+  declarations: [ClrCombobox, ClrComboboxContainer, ClrOptions, ClrOption, ClrOptionSelected],
+  exports: [
+    ClrCommonFormsModule,
+    ClrCombobox,
+    ClrComboboxContainer,
+    ClrOptions,
+    ClrOption,
+    ClrOptionSelected,
+    ClrConditionalModule,
+  ],
+  entryComponents: [ClrComboboxContainer],
 })
 export class ClrComboboxModule {}

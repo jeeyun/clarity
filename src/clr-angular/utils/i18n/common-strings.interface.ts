@@ -21,6 +21,10 @@ export interface ClrCommonStrings {
    */
   hide?: string;
   /**
+   * Delete button
+   */
+  delete?: string;
+  /**
    * Expandable components: expand caret
    */
   expand?: string;
@@ -40,6 +44,10 @@ export interface ClrCommonStrings {
    * Selectable components: checkbox to select all
    */
   selectAll?: string;
+  /**
+   * Selected item(s): combobox
+   */
+  selection?: string;
   /**
    * Pagination: previous button
    */
@@ -188,10 +196,16 @@ export interface ClrCommonStrings {
   daypickerSRCurrentMonthPhrase?: string;
   daypickerSRCurrentYearPhrase?: string;
   daypickerSRCurrentDecadePhrase?: string;
+
   /**
    * Stack View: Record has changed
    */
   stackViewChanged?: string;
   // Forms
   formErrorSummary?: string;
+
+  /**
+   * Combobox Searching Text
+   */
+  searching?: string;
 }

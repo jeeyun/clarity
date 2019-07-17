@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+ * Copyright (c) 2016-2019 VMware, Inc. All Rights Reserved.
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
@@ -60,7 +60,7 @@ export default function(): void {
         expect(ifOpenService.open).toBe(false);
       });
 
-      it('provides a method to focus on the input', () => {
+      it('provides a method to focus on the textbox', () => {
         let focused = context.clarityElement.querySelector(':focus');
 
         expect(focused).toBeNull();
@@ -69,7 +69,7 @@ export default function(): void {
 
         focused = context.clarityElement.querySelector(':focus');
 
-        expect(focused.classList.contains('clr-combobox-input')).toBe(true);
+        expect(focused.classList.contains('clr-combobox-textbox')).toBe(true);
       });
     });
 
@@ -93,8 +93,8 @@ export default function(): void {
         expect(context.clarityElement.classList.contains('clr-combobox')).toBe(true);
       });
 
-      it('contains an editable input', () => {
-        const input = context.clarityElement.querySelector('.clr-combobox-input');
+      it('contains an editable textbox', () => {
+        const input = context.clarityElement.querySelector('.clr-combobox-textbox');
         expect(input).not.toBeNull();
         expect(input.hasAttribute('contenteditable')).toBe(true);
         expect(input.getAttribute('contenteditable')).toBe('true');
@@ -114,10 +114,10 @@ export default function(): void {
         expect(ifOpenService.open).toBe(true);
       });
 
-      it('keeps the options menu open when the input is clicked', () => {
+      it('keeps the options menu open when the textbox is clicked', () => {
         ifOpenService.open = true;
 
-        const input = context.clarityElement.querySelector('.clr-combobox-input');
+        const input = context.clarityElement.querySelector('.clr-combobox-textbox');
         input.click();
 
         expect(ifOpenService.open).toBe(true);
@@ -142,10 +142,10 @@ export default function(): void {
         expect(context.clarityDirective.focusInput).toHaveBeenCalled();
       });
 
-      it('calls the closeMenuOnTabPress method when a tab keyboard event is dispatched on the input', () => {
+      it('calls the closeMenuOnTabPress method when a tab keyboard event is dispatched on the textbox', () => {
         spyOn(context.clarityDirective, 'closeMenuOnTabPress');
 
-        const input = context.clarityElement.querySelector('.clr-combobox-input');
+        const input = context.clarityElement.querySelector('.clr-combobox-textbox');
         input.dispatchEvent(createKeyboardEvent(TAB, 'keydown'));
 
         expect(context.clarityDirective.closeMenuOnTabPress).toHaveBeenCalled();

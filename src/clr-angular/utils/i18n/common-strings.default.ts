@@ -67,4 +67,8 @@ export const commonStringsDefault: ClrCommonStrings = {
   stackViewChanged: 'Value changed.',
   // Forms
   formErrorSummary: 'The form has {ERROR_NUMBER} errors.',
+  // combobox
+  delete: 'Delete',
+  searching: 'Searching for matches for "{INPUT}"',
+  selection: 'Selection',
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+ * Copyright (c) 2016-2019 VMware, Inc. All Rights Reserved.
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
@@ -14,11 +14,13 @@ import { ComboboxDomAdapter } from './combobox-dom-adapter.service';
 
 @Injectable()
 export class ComboboxNoopDomAdapter implements ComboboxDomAdapter {
-  focus(element: any): void {}
-
   clearChildren(element: any): void {}
 
-  cloneNode(element: any): any {
-    return null;
-  }
+  click(element: any): void {}
+
+  focus(element: any): void {}
+
+  addFocusClass(element: any): void {}
+
+  removeFocusClass(element: any): void {}
 }

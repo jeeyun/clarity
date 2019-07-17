@@ -27,8 +27,13 @@ export class BasicFocusableItem implements FocusableItem {
     if (isPlatformBrowser(this.platformId)) {
       this.renderer.setAttribute(this.el.nativeElement, 'tabindex', '0');
       this.el.nativeElement.focus();
+
+      // TODO: figure out if i can move this somewhere so it doesn't have to use setTimeout
+      // TODO: optimize to scrollIntoView only if hidden
+      setTimeout(() => this.el.nativeElement.scrollIntoView(true));
     }
   }
+
   blur() {
     if (isPlatformBrowser(this.platformId)) {
       this.renderer.setAttribute(this.el.nativeElement, 'tabindex', '-1');

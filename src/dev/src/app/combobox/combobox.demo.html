@@ -1,12 +1,197 @@
 <!--
-  ~ Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+  ~ Copyright (c) 2016-2019 VMware, Inc. All Rights Reserved.
   ~ This software is released under MIT license.
   ~ The full license information can be found in LICENSE in the root directory of this project.
   -->
 
-<h2>Select</h2>
-<ul>
-    <li><a [routerLink]="['./basic']">Basic</a></li>
-    <li><a [routerLink]="['./optional-menu']">Optional Menu</a></li>
-</ul>
-<router-outlet></router-outlet>
+  <h2>Combobox <button class="btn btn-sm btn-primary" (click)="disabled = !disabled">Toggle Disabled</button></h2>
+
+  <h4>Vertical</h4>
+  <form clrForm clrLayout="vertical">
+    <clr-combobox [(ngModel)]="vertical.one" name="one" required [disabled]="disabled" aria-label="one" class="foo">
+      <clr-options>
+          <clr-option [clrValue]="1">1</clr-option>
+          <clr-option [clrValue]="2">2</clr-option>
+          <clr-option [clrValue]="3">3</clr-option>
+      </clr-options>
+    </clr-combobox>
+
+    <clr-combobox-container>
+      <label>Two</label>
+      <clr-combobox [(ngModel)]="vertical.two" name="two" required [disabled]="disabled" class="dynamic">
+        <clr-options *clrIfOpen>
+          <clr-option [clrValue]="1">1</clr-option>
+          <clr-option [clrValue]="2">2</clr-option>
+          <clr-option [clrValue]="3">3</clr-option>
+        </clr-options>
+      </clr-combobox>
+    </clr-combobox-container>
+
+    <clr-combobox-container>
+      <label>My State</label>
+      <clr-combobox [(ngModel)]="vertical.three" name="three" required [disabled]="disabled">
+        <ng-container *clrOptionSelected="let selected2"><clr-icon shape="sun"></clr-icon> {{selected2?.name}}</ng-container>
+          <clr-options>
+            <clr-option *ngFor="let state of states" [clrValue]="state">
+              <clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>
+            </clr-option>
+          </clr-options>
+      </clr-combobox>
+      <clr-control-helper>Helper text</clr-control-helper>
+      <clr-control-error>There was an error</clr-control-error>
+    </clr-combobox-container>
+
+    <clr-combobox-container>
+      <label>Favorite States (Async)</label>
+      <clr-combobox [(ngModel)]="vertical.four" name="four" clrMulti="true" required [disabled]="disabled" [clrLoading]="loading" (clrInputChange)="fetchStates($event)" clrDisplayField="name">
+        <ng-container *clrOptionSelected="let selected"><clr-icon shape="house"></clr-icon> {{selected?.name}}</ng-container>
+        <ng-template clrIfOpen (clrIfOpenChange)="$event ? fetchStates() : null">
+          <clr-options>
+            <clr-option *ngFor="let state of asyncStates$ | async" [clrValue]="state">
+              <clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>
+            </clr-option>
+          </clr-options>
+        </ng-template>
+      </clr-combobox>
+      <clr-control-helper>Helper text</clr-control-helper>
+      <clr-control-error>There was an error</clr-control-error>
+    </clr-combobox-container>
+
+    <clr-combobox-container>
+      <label>Favorite States</label>
+      <clr-combobox [(ngModel)]="vertical.five" name="five" clrMulti="true" required [disabled]="disabled" clrDisplayField="name">
+        <ng-container *clrOptionSelected="let selected"><clr-icon shape="house"></clr-icon> {{selected?.name}}</ng-container>
+        <clr-options *clrIfOpen>
+          <clr-option *ngFor="let state of states" [clrValue]="state">
+            <clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>
+          </clr-option>
+        </clr-options>
+      </clr-combobox>
+      <clr-control-helper>Helper text</clr-control-helper>
+      <clr-control-error>There was an error</clr-control-error>
+    </clr-combobox-container>
+  </form>
+
+  <!--<h4>Horizontal</h4>-->
+
+  <!--<form clrForm clrLayout="horizontal">-->
+    <!--<clr-combobox [(ngModel)]="horizontal.one" name="one" required [disabled]="disabled">-->
+      <!--<clr-option [clrValue]="1">1</clr-option>-->
+      <!--<clr-option [clrValue]="2">2</clr-option>-->
+      <!--<clr-option [clrValue]="3">3</clr-option>-->
+    <!--</clr-combobox>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>Two</label>-->
+      <!--<clr-combobox [(ngModel)]="horizontal.two" name="two" required [disabled]="disabled">-->
+        <!--<clr-option [clrValue]="1">1</clr-option>-->
+        <!--<clr-option [clrValue]="2">2</clr-option>-->
+        <!--<clr-option [clrValue]="3">3</clr-option>-->
+      <!--</clr-combobox>-->
+    <!--</clr-combobox-container>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>My State</label>-->
+      <!--<clr-combobox [(ngModel)]="horizontal.three" name="three" required [disabled]="disabled">-->
+        <!--<ng-container *clrOptionSelected="let selected2">{{selected2?.name}}</ng-container>-->
+        <!--<ng-container *clrIfOpen>-->
+          <!--<clr-option *ngFor="let state of states" [clrValue]="state">-->
+            <!--<clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>-->
+          <!--</clr-option>-->
+        <!--</ng-container>-->
+      <!--</clr-combobox>-->
+      <!--<clr-control-helper>Helper text</clr-control-helper>-->
+      <!--<clr-control-error>There was an error</clr-control-error>-->
+    <!--</clr-combobox-container>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>Favorite States (Async)</label>-->
+      <!--<clr-combobox [(ngModel)]="horizontal.four" name="four" clrMulti="true" required [disabled]="disabled" [clrLoading]="loading" (clrInputChange)="fetchStates($event)">-->
+        <!--<ng-container *clrOptionSelected="let selected"><clr-icon shape="house"></clr-icon> {{selected?.name}}</ng-container>-->
+        <!--<ng-template clrIfOpen (clrIfOpenChange)="$event ? fetchStates() : null">-->
+          <!--<clr-option *ngFor="let state of asyncStates$ | async" [clrValue]="state">-->
+            <!--<clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>-->
+          <!--</clr-option>-->
+        <!--</ng-template>-->
+      <!--</clr-combobox>-->
+      <!--<clr-control-helper>Helper text</clr-control-helper>-->
+      <!--<clr-control-error>There was an error</clr-control-error>-->
+    <!--</clr-combobox-container>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>Favorite States</label>-->
+      <!--<clr-combobox [(ngModel)]="horizontal.five" name="five" clrMulti="true" required [disabled]="disabled">-->
+        <!--<ng-container *clrOptionSelected="let selected"><clr-icon shape="house"></clr-icon> {{selected?.name}}</ng-container>-->
+        <!--<ng-container *clrIfOpen>-->
+          <!--<clr-option *ngFor="let state of states" [clrValue]="state">-->
+            <!--<clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>-->
+          <!--</clr-option>-->
+        <!--</ng-container>-->
+      <!--</clr-combobox>-->
+      <!--<clr-control-helper>Helper text</clr-control-helper>-->
+      <!--<clr-control-error>There was an error</clr-control-error>-->
+    <!--</clr-combobox-container>-->
+
+  <!--</form>-->
+
+  <!--<h4>Compact</h4>-->
+
+  <!--<form clrForm clrLayout="compact">-->
+    <!--<clr-combobox [(ngModel)]="compact.one" name="one" required [disabled]="disabled">-->
+      <!--<clr-option [clrValue]="1">1</clr-option>-->
+      <!--<clr-option [clrValue]="2">2</clr-option>-->
+      <!--<clr-option [clrValue]="3">3</clr-option>-->
+    <!--</clr-combobox>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>Two</label>-->
+      <!--<clr-combobox [(ngModel)]="compact.two" name="two" required [disabled]="disabled">-->
+        <!--<clr-option [clrValue]="1">1</clr-option>-->
+        <!--<clr-option [clrValue]="2">2</clr-option>-->
+        <!--<clr-option [clrValue]="3">3</clr-option>-->
+      <!--</clr-combobox>-->
+    <!--</clr-combobox-container>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>My State</label>-->
+      <!--<clr-combobox [(ngModel)]="compact.three" name="three" required [disabled]="disabled">-->
+        <!--<ng-container *clrOptionSelected="let selected2"><clr-icon shape="sun"></clr-icon> {{selected2?.name}}</ng-container>-->
+        <!--<ng-container *clrIfOpen>-->
+          <!--<clr-option *ngFor="let state of states" [clrValue]="state">-->
+            <!--<clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>-->
+          <!--</clr-option>-->
+        <!--</ng-container>-->
+      <!--</clr-combobox>-->
+      <!--<clr-control-helper>Helper text</clr-control-helper>-->
+      <!--<clr-control-error>There was an error</clr-control-error>-->
+    <!--</clr-combobox-container>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>Favorite States (Async)</label>-->
+      <!--<clr-combobox [(ngModel)]="compact.four" name="four" clrMulti="true" required [disabled]="disabled" [clrLoading]="loading" (clrInputChange)="fetchStates($event)">-->
+        <!--<ng-container *clrOptionSelected="let selected"><clr-icon shape="house"></clr-icon> {{selected?.name}}</ng-container>-->
+        <!--<ng-template clrIfOpen (clrIfOpenChange)="$event ? fetchStates() : null">-->
+          <!--<clr-option *ngFor="let state of asyncStates$ | async" [clrValue]="state">-->
+            <!--<clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>-->
+          <!--</clr-option>-->
+        <!--</ng-template>-->
+      <!--</clr-combobox>-->
+      <!--<clr-control-helper>Helper text</clr-control-helper>-->
+      <!--<clr-control-error>There was an error</clr-control-error>-->
+    <!--</clr-combobox-container>-->
+
+    <!--<clr-combobox-container>-->
+      <!--<label>Favorite States</label>-->
+      <!--<clr-combobox [(ngModel)]="compact.five" name="five" clrMulti="true" required [disabled]="disabled">-->
+        <!--<ng-container *clrOptionSelected="let selected"><clr-icon shape="house"></clr-icon> {{selected?.name}}</ng-container>-->
+        <!--<ng-container *clrIfOpen>-->
+          <!--<clr-option *ngFor="let state of states" [clrValue]="state">-->
+            <!--<clr-icon shape="world"></clr-icon> {{state.name}} <clr-icon shape="sun"></clr-icon>-->
+          <!--</clr-option>-->
+        <!--</ng-container>-->
+      <!--</clr-combobox>-->
+      <!--<clr-control-helper>Helper text</clr-control-helper>-->
+      <!--<clr-control-error>There was an error</clr-control-error>-->
+    <!--</clr-combobox-container>-->
+
+  <!--</form>-->

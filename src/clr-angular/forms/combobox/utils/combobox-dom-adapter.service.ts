@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+ * Copyright (c) 2016-2019 VMware, Inc. All Rights Reserved.
  * This software is released under MIT license.
  * The full license information can be found in LICENSE in the root directory of this project.
  */
@@ -13,11 +13,19 @@ export class ComboboxDomAdapter {
     }
   }
 
-  cloneNode(element: any): any {
-    return element.cloneNode(true);
+  click(element: any): void {
+    element.click();
   }
 
   focus(element: any): void {
     element.focus();
+  }
+
+  addFocusClass(element: any): void {
+    element.classList.add('clr-focus');
+  }
+
+  removeFocusClass(element: any): void {
+    element.classList.remove('clr-focus');
   }
 }

@@ -1,32 +1,31 @@
 <!--
-* Copyright (c) 2016-2018 VMware, Inc. All Rights Reserved.
+* Copyright (c) 2016-2019 VMware, Inc. All Rights Reserved.
 * This software is released under MIT license.
 * The full license information can be found in LICENSE in the root directory of this project.
 -->
 
 <!--
-The div below is contenteditable instead of the host to avoid the input being focused
-even if the user clicks outside of the clr-select-input.
+The div below is contenteditable instead of the host to avoid textboxnput being focused
+even if the user clicks outside of the clr-seltextboxnput.
 More info here: https://stackoverflow.com/a/34445203/3538394
 -->
-<div class="clr-combobox-input-container">
-    <div class="clr-combobox-input" contenteditable="true" #input (keydown)="closeMenuOnTabPress($event)">
-        <!-- Highlighted options will be rendererd here later.-->
-    </div>
-    <button class="clr-combobox-trigger" tabindex="-1" (click)="toggleOptionsMenu($event)">
-        <clr-icon shape="caret down" size="12"></clr-icon>
-    </button>
-</div>
+<!--<div class="clr-combotextboxnput" contenteditable="trutextboxnput (keydown)="closeMenuOnTabPress($event)">-->
+    <!--&lt;!&ndash; Highlighted options will be rendererd here later.&ndash;&gt;-->
+<!--</div>-->
+<!--<button class="clr-combobox-trigger" tabindex="-1" (click)="toggleOptionsMenu($event)">-->
+    <!--<clr-icon shape="caret down" size="12"></clr-icon>-->
+<!--</button>-->
 
-<!-- Content projected by the consumer in ng-template. -->
-<ng-template #projectedOptions>
-    <ng-content></ng-content>
-</ng-template>
+<!--&lt;!&ndash; Content projected by the consumer in ng-template. &ndash;&gt;-->
+<!--<ng-template #projectedOptions>-->
+    <!--<ng-content></ng-content>-->
+<!--</ng-template>-->
 
-<!-- Create the options menu ourself if the consumer doesnt provide the menu. -->
-<clr-options *ngIf="!options">
-    <ng-container [ngTemplateOutlet]="projectedOptions"></ng-container>
-</clr-options>
+<!--&lt;!&ndash; Create the options menu ourself if the consumer doesnt provide the menu. &ndash;&gt;-->
+<!--<clr-options *ngIf="!options">-->
+    <!--<ng-container [ngTemplateOutlet]="projectedOptions"></ng-container>-->
+<!--</clr-options>-->
 
-<!-- If consumer provides the menu, render it -->
-<ng-container *ngIf="options" [ngTemplateOutlet]="projectedOptions"></ng-container>
+<!--&lt;!&ndash; If consumer provides the menu, render it &ndash;&gt;-->
+<!--<ng-container *ngIf="options" [ngTemplateOutlet]="projectedOptions"></ng-container>-->
+<!--nch-->
